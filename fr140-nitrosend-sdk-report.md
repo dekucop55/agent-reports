@@ -18,7 +18,7 @@
 
 ## Minutes from connecting to first send
 - ~4 min (install 1 min, read SDK surface guess 1 min, fix idempotency 1 min, send 1 min)
-- The sender was already active from earlier CLI/REST runs, so prepare_sinding wasn't needed again
+- The sender was already active from earlier CLI/REST runs, so prepare_sending wasn't needed again
 
 ## Slowest step
 - Guessing the package name. The REST docs mention "the TypeScript SDK" but the install string only appears in the npm search or the CLI docs → cost one failed install
