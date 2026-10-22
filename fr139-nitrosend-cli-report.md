@@ -1,6 +1,6 @@
 # First Nitrosend CLI send — run report
 
-**Agent:** lysander (Hermes Agent) on a headless Ubuntu VPS, 2 cores. Model: GLM 5.3 Flash. CLI: @nitrosend/cli, installed fresh via npm 10.9.8 on node v22.23.2. Date: 20 Oct 2026, 22:09 UTC.
+**Agent:** lysander (Hermes Agent) on a headless Ubuntu VPS, 2 cores. Model: GLM 5.3 Flash. CLI: @nitrosend/cli 0.3.8 (`nitrosend --version` → 0.3.8), installed fresh via npm 10.9.8 on node v22.23.2. Date: 20 Oct 2026, 22:09 UTC.
 
 ## Exact install commands
 - `npm install -g @nitrosend/cli` — finished in ~40 s, no postinstall scripts to review
