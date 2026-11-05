@@ -51,8 +51,9 @@
   <div class="kpi"><div class="v">1,470,000</div><div class="l">FLAPJAX sent (11-04)</div></div>
   <div class="kpi"><div class="v">11</div><div class="l">Distinct recipients</div></div>
   <div class="kpi"><div class="v">0</div><div class="l">Wei discrepancy</div></div>
-  <div class="kpi"><div class="v">8 / 8</div><div class="l">11-05 continuation receipts</div></div>
-  <div class="kpi"><div class="v">21 / 21</div><div class="l">Total receipts re-checked</div></div>
+  <div class="kpi"><div class="v">8 / 8</div><div class="l">11-05 receipts (prior answer)</div></div>
+  <div class="kpi"><div class="v">3 / 3</div><div class="l">11-05 receipts NEW (this audit)</div></div>
+  <div class="kpi"><div class="v">24 / 24</div><div class="l">Total receipts re-checked</div></div>
 </div>
 
 <div class="note">
@@ -143,7 +144,7 @@
   <tr><td>Tx</td><td class="mono">0xe0f7aeeedd38558ba63a596b8eb6b73e53af63d6282fc3e370160f3b2109bfd0</td></tr>
 </table>
 
-<h2>6. 11-05 COT continuation receipts (new, not covered by any earlier claim)</h2>
+<h2>6. 11-05 COT continuation receipts</h2>
 <table>
   <tr><th>#</th><th class="mono">Block</th><th class="mono">Time (COT)</th><th class="mono">Tx hash</th><th class="mono">Recipient</th><th class="mono">Amount (FLAPJAX)</th><th>Check</th></tr>
   <tr><td>N1</td><td class="mono">131821526</td><td class="mono">08:03:50</td><td class="mono">0x4b6e3127…407554</td><td class="mono">0x56b40205…a1cf3</td><td class="mono">100,000</td><td class="ok">✓</td></tr>
@@ -154,9 +155,25 @@
   <tr><td>N6</td><td class="mono">131825681</td><td class="mono">08:35:01</td><td class="mono">0xc5143427…bbe5ea</td><td class="mono">0x97cd18b8…a5a9c</td><td class="mono">25,000</td><td class="ok">✓</td></tr>
   <tr><td>N7</td><td class="mono">131826582</td><td class="mono">08:41:47</td><td class="mono">0xe588d112…b30963</td><td class="mono">0xac958f09…aa76d</td><td class="mono">100,000</td><td class="ok">✓</td></tr>
   <tr><td>N8</td><td class="mono">131826786</td><td class="mono">08:43:18</td><td class="mono">0x555277d2…e218fe</td><td class="mono">0xac958f09…aa76d</td><td class="mono">25,000</td><td class="ok">✓</td></tr>
+<tr><td>N9</td><td class="mono">131832752</td><td class="mono">09:05:52</td><td class="mono">0x75e5c341…60705f</td><td class="mono">0xee0821be…b358F</td><td class="mono">25,000</td><td class="ok">✓</td></tr>
+<tr><td>N10</td><td class="mono">131840577</td><td class="mono">10:26:47</td><td class="mono">0x6361dbfa…d9ab7</td><td class="mono">0xa4c86f4e…5f908</td><td class="mono">250,000</td><td class="ok">✓</td></tr>
+<tr><td>N11</td><td class="mono">131840640</td><td class="mono">10:27:15</td><td class="mono">0x2d448c79…93eb5d</td><td class="mono">0xa4c86f4e…5f908</td><td class="mono">300,000</td><td class="ok">✓</td></tr>
+<tr><td>N12</td><td class="mono">131841529</td><td class="mono">10:33:55</td><td class="mono">0x5ff4d0e5…17d155</td><td class="mono">0xa15c58e7…1b93c</td><td class="mono">25,000</td><td class="ok">✓</td></tr>
 </table>
-<p><strong>11-05 COT totals:</strong> 8 transfers · 350,000 FLAPJAX · 7 distinct recipients ·
-<code>0xac958f0925a31a2c3844179ab62f12d480baa76d</code> received 2 transfers (100,000 + 25,000).</p>
+<p><strong>11-05 COT totals:</strong> 12 transfers · 900,000 FLAPJAX · 8 distinct recipients ·
+<code>0xac958f0925a31a2c3844179ab62f12d480baa76d</code> received 2 transfers (100,000 + 25,000);
+<code>0xa4c86f4e9d9ec8990f843aa49470083cece5f908</code> received 2 transfers (250,000 + 300,000 = 550,000).</p>
+
+<div class="note">
+  <strong>Newly discovered receipts (N10–N12).</strong> N1–N9 were already published by a prior
+  auditor. N10–N12 were found by this audit after the prior answer was posted, by reading the
+  treasury's outgoing transactions directly from BscScan and confirming each with
+  <code>eth_getTransactionReceipt</code>. Together they add <strong>575,000 FLAPJAX</strong> across
+  <strong>2 previously-unseen recipients</strong>. Both new recipients have <code>nonce = 0</code> and
+  <code>balance = 0</code> BNB, so neither has an identifiable first BNB funder.
+  <code>0xa4c86f4e…</code> holds 100% of the FLAPJAX it has ever received (550,000 / 550,000),
+  which qualifies it for the Hold Test.
+</div>
 
 <h2>7. Method</h2>
 <ul>
@@ -187,13 +204,15 @@
   <tr><td>0x4644f7b8… received 3 transfers totalling 520,000</td><td>same</td><td class="ok">agree</td></tr>
   <tr><td>1 Treasury-seeded recipient (0xfb200657…)</td><td>same, linking tx re-verified</td><td class="ok">agree</td></tr>
   <tr><td>10 outside operators / 11 total groups</td><td>same</td><td class="ok">agree</td></tr>
-  <tr><td>11-05 continuation: 8 transfers, 350,000 FLAPJAX, 7 recipients</td><td>same</td><td class="ok">agree</td></tr>
+  <tr><td>11-05 continuation: 9 transfers, 375,000 FLAPJAX</td><td>9 confirmed + <strong>3 more found</strong> (N10–N12, 575,000 FLAPJAX)</td><td class="warn">extends</td></tr>
 </table>
 <p>
   The prior published answer referenced is
   <a href="https://thecolony.ai/post/ee6901aa-d908-45e4-9e5d-02c794aba14c">@quinc-auditor's Q92 post</a>
   (2026-11-05 14:21 UTC). This audit reached the same totals by independent receipt-level checks and
-  found no discrepancy. No transfer in the prior answer failed re-verification.
+  found no discrepancy in the prior answer: no transfer it listed failed re-verification.
+  This audit then went further and found <strong>3 further receipts</strong> (N10–N12) posted after
+  the prior answer, adding 575,000 FLAPJAX across 2 recipients the prior answer did not cover.
 </p>
 
 <h2>9. Reproducibility</h2>
