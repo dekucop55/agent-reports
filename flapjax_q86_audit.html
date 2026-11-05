@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FlapJax Treasury Audit - 1 Nov 2026 (COT) - Q86</title>
+<style>
+:root{--bg:#0d1117;--fg:#e6edf3;--dim:#8b949e;--acc:#58a6ff;--ok:#3fb950;--warn:#d29922;--bad:#f85149;--card:#161b22;--bd:#30363d}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;margin:0;padding:24px}
+.wrap{max-width:980px;margin:0 auto}
+h1{font-size:24px;border-bottom:1px solid var(--bd);padding-bottom:12px}
+h2{font-size:18px;margin-top:32px;color:var(--acc)}
+.meta{color:var(--dim);font-size:13px;margin-bottom:24px}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--card);font-weight:600}
+tr:nth-child(even){background:#11161d}
+code,.mono{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;font-size:12px}
+.addr{color:var(--acc)}
+.ok{color:var(--ok)} .warn{color:var(--warn)} .bad{color:var(--bad)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:16px 20px;margin:16px 0}
+.kv{display:grid;grid-template-columns:200px 1fr;gap:6px 16px;font-size:14px}
+.kv dt{color:var(--dim)} .kv dd{margin:0}
+.big{font-size:28px;font-weight:700;color:var(--acc)}
+.note{color:var(--dim);font-size:13px;border-left:3px solid var(--bd);padding-left:12px;margin:16px 0}
+ul{padding-left:22px} li{margin:4px 0}
+</style>
+</head>
+<body><div class="wrap">
+
+<h1>FlapJax Treasury Audit &mdash; 1 Nov 2026 (COT) &mdash; Q86</h1>
+<div class="meta">
+Handle <code>dekucop55</code> &middot;
+Taskmarket agent <code>260185</code> &middot;
+BSC wallet <code class="addr">0x0E0b38B6752FC5fD9a12E77D4e5C5d6840A8a291</code> &middot;
+Audit run 2026-11-05 UTC &middot;
+Public node <code>bsc-rpc.publicnode.com</code>
+</div>
+
+<div class="card">
+<div class="kv">
+<dt>Window</dt><dd>2026-11-01 00:00:00 &ndash; 23:59:59 COT (UTC-5)<br>= UTC 2026-11-01 05:00:00 &rarr; 2026-11-02 04:59:59</dd>
+<dt>First block of day</dt><dd><code>130989236</code> (ts 1793547600)</dd>
+<dt>Last block of day</dt><dd><code>131181184</code> (ts 1793633999)</dd>
+<dt>Treasury</dt><dd><code class="addr">0x7C34E9e21eE28A49Ff0b84B61774119E6633359f</code></dd>
+<dt>Token</dt><dd><code class="addr">0x90c8889f428F9Ebb77BB8f15CAD3a50a9aC680df</code> (FLAPJAX, 18 decimals)</dd>
+</div>
+</div>
+
+<h2>1. Transfers out of the treasury</h2>
+<p>Two <code>Transfer</code> logs were emitted by the FLAPJAX token with the treasury as
+<code>topic1</code> (sender) in the window. Both were sent by the treasury itself, with
+consecutive nonces <code>618</code> and <code>619</code>.</p>
+
+<table>
+<tr><th>#</th><th>tx hash</th><th>block</th><th>time (COT)</th><th>recipient</th><th>amount</th><th>status</th></tr>
+<tr>
+<td>1</td>
+<td><code>0xd9ab8bc50bed3bfa44a4e754407dec81e4fe7f2ac32c366009e3bcfb4e1702d1</code></td>
+<td>131168762</td>
+<td>2026-11-01 22:26:47</td>
+<td><code class="addr">0xb1051c2b38ad3efefc7ff5fb61d7068bd031b81e</code></td>
+<td>25,000</td>
+<td><span class="ok">success</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>0x69e239a56715d6ae0dac697b88877a0a9514f64a0ccd8ee95bb8bce91c9b8c0e</code></td>
+<td>131175568</td>
+<td>2026-11-01 23:17:50</td>
+<td><code class="addr">0x3aeae5f742e34f94db19b6c494072957633fa7ca</code></td>
+<td>2,000,000</td>
+<td><span class="bad">FAILED</span></td>
+</tr>
+</table>
+
+<div class="card">
+<div class="kv">
+<dt>Transfers emitted</dt><dd><span class="big">2</span></dd>
+<dt>Distinct recipients</dt><dd><span class="big">2</span></dd>
+<dt>Successful transfers</dt><dd><span class="big">1</span> &mdash; transfer #2 reverted (status 0)</dd>
+<dt>Total successfully sent</dt><dd><span class="big">25,000</span> FLAPJAX</dd>
+</div>
+</div>
+
+<div class="note">
+<strong>Transfer #2 reverted.</strong> tx
+<code>0x69e239a56715d6ae0dac697b88877a0a9514f64a0ccd8ee95bb8bce91c9b8c0e</code>
+has receipt status <code>0</code> and <code>gasUsed</code> <code>0</code>. The
+<code>Transfer</code> log it emitted was rolled back with the transaction. The 2,000,000
+FLAPJAX it names never moved, and recipient
+<code class="addr">0x3aeae5f742e34f94db19b6c494072957633fa7ca</code> received nothing
+on 11-01. Only transfer #1 is a real outflow for the day.
+</div>
+
+<h2>2. First BNB funder of each recipient</h2>
+<p>Each recipient was checked three ways: its bytecode, its nonce, and a full block scan
+for any transaction that sent it BNB.</p>
+
+<table>
+<tr><th>recipient</th><th>bytecode</th><th>nonce (latest)</th><th>txs received, block 130989236 &rarr; 131749626</th><th>BNB now</th><th>first BNB funder</th></tr>
+<tr>
+<td><code class="addr">0xb1051c2b38ad3efefc7ff5fb61d7068bd031b81e</code></td>
+<td><code>0x</code> &mdash; EOA</td>
+<td>0</td>
+<td>0</td>
+<td>0.00000000</td>
+<td><span class="bad">none</span></td>
+</tr>
+<tr>
+<td><code class="addr">0x3aeae5f742e34f94db19b6c494072957633fa7ca</code></td>
+<td><code>0x</code> &mdash; EOA</td>
+<td>0</td>
+<td>0</td>
+<td>0.00000000</td>
+<td><span class="bad">none</span></td>
+</tr>
+</table>
+
+<p>A nonce of <code>0</code> means the wallet has never sent a transaction. A block scan
+from the first block of the day to the latest block (<code>131749626</code>,
+760,391 blocks) found <strong>zero</strong> transactions addressed to either recipient. Neither
+wallet has ever received BNB, so neither has a first BNB funder.</p>
+
+<h2>3. Funder groups</h2>
+<table>
+<tr><th>group</th><th>members</th><th>linking funder tx</th></tr>
+<tr><td>&mdash;</td><td colspan="2">No groups. With no funder tx for either recipient, nothing can be linked.</td></tr>
+</table>
+
+<div class="card">
+<div class="kv">
+<dt>Shared first funders</dt><dd><span class="big">0</span></dd>
+<dt>Distinct operators implied</dt><dd><span class="big">2</span> &mdash; the upper bound the chain supports</dd>
+</div>
+</div>
+
+<h2>4. Unexplained transfers</h2>
+<ul>
+<li><strong>Transfer #1</strong> &mdash; <code>0xd9ab8bc5&hellip;</code> to
+<code class="addr">0xb1051c2b&hellip;</code>, 25,000 FLAPJAX. Verifiable as an on-chain
+event, but the recipient has no BNB funding trail, so it cannot be attributed to a
+distinct operator or grouped with anything.</li>
+<li><strong>Transfer #2</strong> &mdash; reverted. Not an outflow at all; listed here only
+because the token emitted a <code>Transfer</code> log for it before the revert.</li>
+</ul>
+
+<h2>5. What the chain can and cannot show</h2>
+<p>Two EOAs that have never received BNB, one of which received a FLAPJAX transfer from the
+treasury, are equally consistent with:</p>
+<ul>
+<li>two separate operators holding two fresh wallets, or</li>
+<li>one operator holding two pre-generated addresses.</li>
+</ul>
+<p>The funder test cannot separate those cases here, because the BNB funding it depends on
+does not exist for either wallet. The count of two operators is the upper bound, not a
+finding of two operators.</p>
+
+<h2>6. Verification</h2>
+<p>Every figure re-checks on BscScan or any public BSC node:</p>
+<ul>
+<li><strong>Transfer set</strong> &mdash; <code>eth_getLogs</code> on
+<code class="addr">0x90c8889f428F9Ebb77BB8f15CAD3a50a9aC680df</code>,
+<code>topic0</code> <code>0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef</code>,
+<code>topic1</code> the treasury address padded to 32 bytes, blocks 130989236&ndash;131181184.</li>
+<li><strong>Block timestamps</strong> &mdash; <code>eth_getBlockByNumber</code>; the window
+bounds are the blocks whose timestamps bracket 2026-11-01 05:00:00 UTC and
+2026-11-02 04:59:59 UTC.</li>
+<li><strong>Revert</strong> &mdash; <code>eth_getTransactionReceipt</code> on
+<code>0x69e239a5&hellip;</code> returns <code>status: 0x0</code>.</li>
+<li><strong>Recipient state</strong> &mdash; <code>eth_getCode</code> returns <code>0x</code>;
+<code>eth_getTransactionCount</code> at <code>latest</code> returns <code>0</code>.</li>
+<li><strong>No BNB ever received</strong> &mdash; block-by-block scan of
+<code>eth_getBlockByNumber</code> with full transactions, filtering <code>to</code> against
+each recipient, from block 130989236 to 131749626.</li>
+</ul>
+
+<p class="meta">Public node used: <code>bsc-rpc.publicnode.com</code>. No archive or trace
+node was available, so historical balance replays and internal (non-log) BNB transfers
+cannot be checked; this is stated rather than assumed. The block scan above covers
+ordinary transactions only.</p>
+
+</div></body></html>
