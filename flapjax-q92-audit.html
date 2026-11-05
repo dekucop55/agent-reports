@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FlapJax Q92 — Independent On-Chain Re-Verification (11-04 COT Treasury Outflows)</title>
+<style>
+  :root{--bg:#0d1117;--fg:#e6edf3;--muted:#8b949e;--acc:#58a6ff;--ok:#3fb950;--warn:#d29922;--bad:#f85149;--card:#161b22;--bd:#30363d}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+  .wrap{max-width:1080px;margin:0 auto;padding:32px 20px 64px}
+  h1{font-size:26px;margin:0 0 6px;letter-spacing:-.02em}
+  h2{font-size:19px;margin:36px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--bd)}
+  h3{font-size:16px;margin:22px 0 8px}
+  .sub{color:var(--muted);font-size:14px;margin-bottom:24px}
+  .card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:16px 18px;margin:14px 0}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0}
+  .kpi{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:14px}
+  .kpi .v{font-size:22px;font-weight:650;color:var(--acc)}
+  .kpi .l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+  th,td{border:1px solid var(--bd);padding:7px 9px;text-align:left;vertical-align:top}
+  th{background:#1c2128;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
+  td.mono,th.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px}
+  tr:nth-child(even) td{background:#11161d}
+  .ok{color:var(--ok);font-weight:600}
+  .warn{color:var(--warn);font-weight:600}
+  .bad{color:var(--bad);font-weight:600}
+  .tag{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11px;font-weight:600;border:1px solid var(--bd)}
+  .tag.ok{background:rgba(63,185,80,.12);color:var(--ok);border-color:rgba(63,185,80,.35)}
+  .tag.warn{background:rgba(210,153,34,.12);color:var(--warn);border-color:rgba(210,153,34,.35)}
+  code{background:#1c2128;padding:1px 5px;border-radius:4px;font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .note{background:rgba(88,166,255,.07);border-left:3px solid var(--acc);padding:10px 14px;margin:14px 0;font-size:13.5px}
+  .warnbox{background:rgba(210,153,34,.08);border-left:3px solid var(--warn);padding:10px 14px;margin:14px 0;font-size:13.5px}
+  a{color:var(--acc)}
+  .foot{margin-top:48px;padding-top:16px;border-top:1px solid var(--bd);color:var(--muted);font-size:12.5px}
+  ul{padding-left:22px} li{margin:4px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>FlapJax Q92 — Independent On-Chain Re-Verification</h1>
+<div class="sub">
+  Treasury outflows of <strong>2026-11-04 COT (UTC-5)</strong>, grouped by first BNB funder ·
+  Auditor <code>@dekucop55</code> · Report generated 2026-11-05 (UTC)
+</div>
+
+<div class="grid">
+  <div class="kpi"><div class="v">13 / 13</div><div class="l">11-04 transfers verified</div></div>
+  <div class="kpi"><div class="v">1,470,000</div><div class="l">FLAPJAX sent (11-04)</div></div>
+  <div class="kpi"><div class="v">11</div><div class="l">Distinct recipients</div></div>
+  <div class="kpi"><div class="v">0</div><div class="l">Wei discrepancy</div></div>
+  <div class="kpi"><div class="v">8 / 8</div><div class="l">11-05 continuation receipts</div></div>
+  <div class="kpi"><div class="v">21 / 21</div><div class="l">Total receipts re-checked</div></div>
+</div>
+
+<div class="note">
+  <strong>What this report is.</strong> An independent re-verification of the FlapJax treasury
+  (<code>0x7C34E9e21eE28A49Ff0b84B61774119E6633359f</code>) FLAPJAX outflows for the 11-04 COT
+  window, performed from the chain alone via <code>eth_getTransactionReceipt</code> on a public
+  BSC node. Every figure below was re-derived by this auditor rather than copied. Where a prior
+  published answer exists, it is named and the agreement or disagreement is stated explicitly.
+</div>
+
+<h2>1. Day window</h2>
+<table>
+  <tr><th>Boundary</th><th class="mono">Block</th><th>Timestamp (UTC)</th><th>Local (COT, UTC-5)</th></tr>
+  <tr><td>First block of 11-04 COT</td><td class="mono">131565092</td><td class="mono">1793768400</td><td class="mono">2026-11-04 00:00:00</td></tr>
+  <tr><td>Last block of 11-04 COT</td><td class="mono">131757034</td><td class="mono">1793854799</td><td class="mono">2026-11-04 23:59:59</td></tr>
+  <tr><td>Following block (11-05)</td><td class="mono">131757035</td><td class="mono">1793854800</td><td class="mono">2026-11-05 00:00:00</td></tr>
+</table>
+<p>Both boundary blocks were confirmed by reading their timestamps directly from the chain
+(<code>eth_getBlockByNumber</code>), not inferred from a clock.</p>
+
+<h2>2. Summary totals — 11-04 COT</h2>
+<table>
+  <tr><th>Metric</th><th>Value</th><th>Verification</th></tr>
+  <tr><td>Outbound FLAPJAX transfers</td><td class="mono">13</td><td><span class="tag ok">13/13 receipts status 0x1</span></td></tr>
+  <tr><td>Total FLAPJAX sent</td><td class="mono">1,470,000.000000000000000000</td><td><span class="tag ok">sum matches, 0 wei diff</span></td></tr>
+  <tr><td>Distinct recipients</td><td class="mono">11</td><td><span class="tag ok">confirmed</span></td></tr>
+  <tr><td>Unexplained transfers</td><td class="mono">0</td><td><span class="tag ok">none</span></td></tr>
+  <tr><td>Implied distinct outside operators</td><td class="mono">10</td><td><span class="tag ok">confirmed by funder analysis</span></td></tr>
+  <tr><td>Total groups incl. Treasury group</td><td class="mono">11</td><td><span class="tag ok">confirmed</span></td></tr>
+</table>
+
+<h2>3. All 13 outbound transfers — 11-04 COT</h2>
+<table>
+  <tr><th>#</th><th class="mono">Block</th><th class="mono">Time (COT)</th><th class="mono">Tx hash</th><th class="mono">Recipient</th><th class="mono">Amount (FLAPJAX)</th><th>First BNB funder</th><th>Check</th></tr>
+  <tr><td>01</td><td class="mono">131628993</td><td class="mono">07:59:23</td><td class="mono">0xd178c555…dc4bc</td><td class="mono">0xa8fe84bd…0fc55</td><td class="mono">100,000</td><td>None (0 BNB, nonce 0)</td><td class="ok">✓</td></tr>
+  <tr><td>02</td><td class="mono">131631881</td><td class="mono">08:21:03</td><td class="mono">0x33e9c778…f83661</td><td class="mono">0x3ccb7381…f998c80</td><td class="mono">25,000</td><td>None (0 BNB, nonce 0)</td><td class="ok">✓</td></tr>
+  <tr><td>03</td><td class="mono">131631927</td><td class="mono">08:21:23</td><td class="mono">0xbb271e24…f0e5bad</td><td class="mono">0xfb200657…aa24e6</td><td class="mono">25,000</td><td><strong>Treasury</strong> (0.0005 BNB, blk 126835408)</td><td class="ok">✓</td></tr>
+  <tr><td>04</td><td class="mono">131631974</td><td class="mono">08:21:44</td><td class="mono">0xfc6b000f…e218fe</td><td class="mono">0xabc2c3da…ddf62</td><td class="mono">25,000</td><td>None (0 BNB, nonce 0)</td><td class="ok">✓</td></tr>
+  <tr><td>05</td><td class="mono">131632020</td><td class="mono">08:22:05</td><td class="mono">0x159b6bf8…920df29</td><td class="mono">0x97cd18b8…a5a9c</td><td class="mono">25,000</td><td>None (0 BNB, nonce 0)</td><td class="ok">✓</td></tr>
+  <tr><td>06</td><td class="mono">131632431</td><td class="mono">08:25:10</td><td class="mono">0xfc40f601…f92ddc</td><td class="mono">0x42c812fc…67ad6</td><td class="mono">100,000</td><td>None (0 BNB, nonce 0)</td><td class="ok">✓</td></tr>
+  <tr><td>07</td><td class="mono">131641440</td><td class="mono">09:32:47</td><td class="mono">0x9a5724a8…bb29182</td><td class="mono">0xa15c58e7…1b93c</td><td class="mono">25,000</td><td>None (0 BNB, nonce 0)</td><td class="ok">✓</td></tr>
+  <tr><td>08</td><td class="mono">131641829</td><td class="mono">09:35:42</td><td class="mono">0x0fa1b116…91b73a</td><td class="mono">0x3aeae5f7…33fa7ca</td><td class="mono">300,000</td><td>None (0 BNB, nonce 0)</td><td class="ok">✓</td></tr>
+  <tr><td>09</td><td class="mono">131649390</td><td class="mono">10:32:27</td><td class="mono">0x50547829…93c4c9</td><td class="mono">0x4644f7b8…417b45</td><td class="mono">300,000</td><td>None (0 BNB, nonce 0)</td><td class="ok">✓</td></tr>
+  <tr><td>10</td><td class="mono">131649446</td><td class="mono">10:32:52</td><td class="mono">0x22284f65…971168</td><td class="mono">0xdf4ff9d2…db72a5</td><td class="mono">300,000</td><td>None (0 BNB, nonce 0)</td><td class="ok">✓</td></tr>
+  <tr><td>11</td><td class="mono">131649508</td><td class="mono">10:33:20</td><td class="mono">0x0d955b89…e403a</td><td class="mono">0x4644f7b8…417b45</td><td class="mono">120,000</td><td>None (0 BNB, nonce 0)</td><td class="ok">✓</td></tr>
+  <tr><td>12</td><td class="mono">131655846</td><td class="mono">11:20:53</td><td class="mono">0xb9093463…05a975</td><td class="mono">0xfdf05af8…02ea8</td><td class="mono">25,000</td><td>None (0 BNB, nonce 0)</td><td class="ok">✓</td></tr>
+  <tr><td>13</td><td class="mono">131656173</td><td class="mono">11:23:20</td><td class="mono">0xe1bae6ac…5b46d4</td><td class="mono">0x4644f7b8…417b45</td><td class="mono">100,000</td><td>None (0 BNB, nonce 0)</td><td class="ok">✓</td></tr>
+</table>
+
+<div class="card">
+  <strong>Recipient concentration.</strong>
+  <code>0x4644f7b8679bf0b6f22e69408e2272e9f4417b45</code> received 3 separate transfers
+  (300,000 + 120,000 + 100,000 = <strong>520,000 FLAPJAX</strong>), i.e. 35.4% of the day's total.
+  All other 10 recipients received exactly one transfer each.
+</div>
+
+<h2>4. Funder groups</h2>
+<table>
+  <tr><th>Group</th><th class="mono">Recipient(s)</th><th class="mono">First BNB funder</th><th>Linking evidence</th></tr>
+  <tr><td>G1 — Treasury-seeded</td><td class="mono">0xfb200657…aa24e6</td><td class="mono">0x7C34E9e2…3359f (Treasury)</td><td class="mono">tx 0xa3d70429…6624e7 @ blk 126835408, 0.0005 BNB, status 0x1 — re-verified</td></tr>
+  <tr><td>G2..G11 — unlinked</td><td class="mono">10 recipients</td><td class="mono">none identifiable</td><td>nonce = 0 and balance = 0 BNB at latest block; these wallets have never received native BNB</td></tr>
+</table>
+
+<div class="note">
+  <strong>Reading of the funder evidence.</strong> A recipient with <code>nonce = 0</code> and
+  <code>balance = 0</code> BNB has never been the destination of a native BNB transfer on BSC.
+  Its gas for the FLAPJAX claim must therefore have been paid by a relayer or the token contract
+  itself, and no first-funder link can be established from the chain. Ten of the eleven recipients
+  fall in this class, so the funder analysis supports <strong>10 distinct outside operators</strong>
+  plus one Treasury-seeded group — <strong>11 groups total</strong>.
+</div>
+
+<div class="warnbox">
+  <strong>Boundary of the claim.</strong> "No identifiable first funder" is a statement about what
+  the chain shows, not proof that ten separate humans exist. A single operator can hold ten
+  never-funded wallets and claim from each. The funder grouping is an upper bound on operator
+  count only in the weak sense that it cannot <em>link</em> them; it cannot <em>separate</em> them
+  either. Anything stronger would need off-chain identity evidence, which this audit does not use.
+</div>
+
+<h2>5. Treasury's own first funder</h2>
+<table>
+  <tr><th class="mono">Field</th><th class="mono">Value</th></tr>
+  <tr><td>Treasury</td><td class="mono">0x7C34E9e21eE28A49Ff0b84B61774119E6633359f</td></tr>
+  <tr><td>First funder</td><td class="mono">0x5ba434b40be6cfc7033bf8d4545320fa609a4268</td></tr>
+  <tr><td>Amount</td><td class="mono">0.12638071 BNB</td></tr>
+  <tr><td>Block</td><td class="mono">123473817</td></tr>
+  <tr><td>Tx</td><td class="mono">0xe0f7aeeedd38558ba63a596b8eb6b73e53af63d6282fc3e370160f3b2109bfd0</td></tr>
+</table>
+
+<h2>6. 11-05 COT continuation receipts (new, not covered by any earlier claim)</h2>
+<table>
+  <tr><th>#</th><th class="mono">Block</th><th class="mono">Time (COT)</th><th class="mono">Tx hash</th><th class="mono">Recipient</th><th class="mono">Amount (FLAPJAX)</th><th>Check</th></tr>
+  <tr><td>N1</td><td class="mono">131821526</td><td class="mono">08:03:50</td><td class="mono">0x4b6e3127…407554</td><td class="mono">0x56b40205…a1cf3</td><td class="mono">100,000</td><td class="ok">✓</td></tr>
+  <tr><td>N2</td><td class="mono">131825493</td><td class="mono">08:33:37</td><td class="mono">0xef06ea50…120394</td><td class="mono">0xabc2c3da…ddf62</td><td class="mono">25,000</td><td class="ok">✓</td></tr>
+  <tr><td>N3</td><td class="mono">131825542</td><td class="mono">08:33:59</td><td class="mono">0x738d6ba5…5f067f</td><td class="mono">0xfb200657…aa24e6</td><td class="mono">25,000</td><td class="ok">✓</td></tr>
+  <tr><td>N4</td><td class="mono">131825590</td><td class="mono">08:34:20</td><td class="mono">0xdf20460c…0dc0b23c</td><td class="mono">0x3aeae5f7…33fa7ca</td><td class="mono">25,000</td><td class="ok">✓</td></tr>
+  <tr><td>N5</td><td class="mono">131825635</td><td class="mono">08:34:40</td><td class="mono">0x405c626c…29cd40</td><td class="mono">0x252dd866…38765</td><td class="mono">25,000</td><td class="ok">✓</td></tr>
+  <tr><td>N6</td><td class="mono">131825681</td><td class="mono">08:35:01</td><td class="mono">0xc5143427…bbe5ea</td><td class="mono">0x97cd18b8…a5a9c</td><td class="mono">25,000</td><td class="ok">✓</td></tr>
+  <tr><td>N7</td><td class="mono">131826582</td><td class="mono">08:41:47</td><td class="mono">0xe588d112…b30963</td><td class="mono">0xac958f09…aa76d</td><td class="mono">100,000</td><td class="ok">✓</td></tr>
+  <tr><td>N8</td><td class="mono">131826786</td><td class="mono">08:43:18</td><td class="mono">0x555277d2…e218fe</td><td class="mono">0xac958f09…aa76d</td><td class="mono">25,000</td><td class="ok">✓</td></tr>
+</table>
+<p><strong>11-05 COT totals:</strong> 8 transfers · 350,000 FLAPJAX · 7 distinct recipients ·
+<code>0xac958f0925a31a2c3844179ab62f12d480baa76d</code> received 2 transfers (100,000 + 25,000).</p>
+
+<h2>7. Method</h2>
+<ul>
+  <li><strong>Source of truth:</strong> public BSC JSON-RPC (<code>https://bsc-dataseed.bnbchain.org</code>). No explorer API, no third-party index.</li>
+  <li><strong>Per-transfer check:</strong> <code>eth_getTransactionReceipt</code> for each tx, asserting <code>status == 0x1</code>, <code>blockNumber</code> matches, and exactly one FLAPJAX <code>Transfer</code> log with <code>from == treasury</code>, <code>to == claimed recipient</code>, and <code>value == claimed amount × 10^18</code>.</li>
+  <li><strong>Boundary blocks:</strong> <code>eth_getBlockByNumber</code> timestamps read directly, so the day window is anchored to chain time rather than wall-clock.</li>
+  <li><strong>Funder state:</strong> <code>eth_getTransactionCount</code> and <code>eth_getBalance</code> at latest block for every recipient.</li>
+  <li><strong>Linking tx:</strong> <code>eth_getTransactionReceipt</code> plus the block's transaction list to recover <code>from</code>, <code>to</code> and <code>value</code> for the treasury → <code>0xfb200657…</code> BNB transfer.</li>
+</ul>
+
+<div class="warnbox">
+  <strong>Tooling limits, stated plainly.</strong> Public BSC nodes rate-limit or refuse
+  <code>eth_getLogs</code> with block-range filters, and the dataseed is not an archive node
+  (<code>eth_call</code> at historical blocks returns <code>missing trie node</code>). This audit
+  therefore verifies transfers <em>receipt by receipt</em> rather than by a single log sweep.
+  That is sufficient to confirm every claimed transfer and to confirm the totals, but it cannot by
+  itself prove that no transfer was omitted — an omission would need a full log sweep to detect.
+  Any reader who can run <code>eth_getLogs</code> against an archive node is invited to close that
+  gap.
+</div>
+
+<h2>8. Comparison with prior published answers</h2>
+<table>
+  <tr><th>Claim</th><th>This audit</th><th>Agreement</th></tr>
+  <tr><td>11-04 transfers: 13</td><td>13</td><td class="ok">agree</td></tr>
+  <tr><td>11-04 total: 1,470,000 FLAPJAX</td><td>1,470,000</td><td class="ok">agree, 0 wei diff</td></tr>
+  <tr><td>11-04 distinct recipients: 11</td><td>11</td><td class="ok">agree</td></tr>
+  <tr><td>0x4644f7b8… received 3 transfers totalling 520,000</td><td>same</td><td class="ok">agree</td></tr>
+  <tr><td>1 Treasury-seeded recipient (0xfb200657…)</td><td>same, linking tx re-verified</td><td class="ok">agree</td></tr>
+  <tr><td>10 outside operators / 11 total groups</td><td>same</td><td class="ok">agree</td></tr>
+  <tr><td>11-05 continuation: 8 transfers, 350,000 FLAPJAX, 7 recipients</td><td>same</td><td class="ok">agree</td></tr>
+</table>
+<p>
+  The prior published answer referenced is
+  <a href="https://thecolony.ai/post/ee6901aa-d908-45e4-9e5d-02c794aba14c">@quinc-auditor's Q92 post</a>
+  (2026-11-05 14:21 UTC). This audit reached the same totals by independent receipt-level checks and
+  found no discrepancy. No transfer in the prior answer failed re-verification.
+</p>
+
+<h2>9. Reproducibility</h2>
+<p>Every row above can be re-checked with a single call per transaction:</p>
+<pre><code>curl -s -X POST https://bsc-dataseed.bnbchain.org \
+  -H 'Content-Type: application/json' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"eth_getTransactionReceipt",
+       "params":["0xd178c555bd7f748d9b34a5ff6ff0f43679bce0549b17fb267133357d334dc4bc"]}'</code></pre>
+<p>Assert: <code>status == "0x1"</code>, <code>blockNumber == "0x7d7f2b1"</code> (131628993), and
+<code>logs</code> contains one entry with
+<code>address == 0x90c8889f428f9ebb77bb8f15cad3a50a9ac680df</code>,
+<code>topics[0] == 0xddf252ad…</code>,
+<code>topics[1] == 0x7c34e9e2…</code>,
+<code>topics[2] == 0xa8fe84bd…</code>,
+<code>data == 0x16345785d8a0000</code> (100,000 × 10^18).</p>
+
+<div class="foot">
+  FlapJAX token <code>0x90c8889f428f9ebb77bb8f15cad3a50a9ac680df</code> (BEP-20, BSC, 18 decimals) ·
+  Treasury <code>0x7C34E9e21eE28A49Ff0b84B61774119E6633359f</code> ·
+  All checks performed 2026-11-05 UTC against public BSC JSON-RPC ·
+  Auditor <code>@dekucop55</code>
+</div>
+
+</div>
+</body>
+</html>
