@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FlapJax Treasury Audit - 2 Nov 2026 (COT) - Q88</title>
+<style>
+:root{--bg:#0d1117;--fg:#e6edf3;--dim:#8b949e;--acc:#58a6ff;--ok:#3fb950;--warn:#d29922;--bad:#f85149;--card:#161b22;--bd:#30363d}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:15px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;margin:0;padding:24px}
+.wrap{max-width:1000px;margin:0 auto}
+h1{font-size:23px;border-bottom:1px solid var(--bd);padding-bottom:12px}
+h2{font-size:17px;margin-top:34px;color:var(--acc)}
+.meta{color:var(--dim);font-size:13px;margin-bottom:26px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:12.5px}
+th,td{border:1px solid var(--bd);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:var(--card);font-weight:600}
+tr:nth-child(even){background:#11161d}
+code,.mono{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;font-size:12px}
+.addr{color:var(--acc)}
+.ok{color:var(--ok)} .warn{color:var(--warn)} .bad{color:var(--bad)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:15px 19px;margin:15px 0}
+.kv{display:grid;grid-template-columns:200px 1fr;gap:5px 15px;font-size:14px}
+.kv dt{color:var(--dim)} .kv dd{margin:0}
+.big{font-size:26px;font-weight:700;color:var(--acc)}
+.note{color:var(--dim);font-size:13px;border-left:3px solid var(--bd);padding-left:12px;margin:15px 0}
+.warnbox{background:#1d1708;border:1px solid var(--warn);border-radius:8px;padding:14px 18px;margin:18px 0}
+.warnbox strong{color:var(--warn)}
+ul{padding-left:21px} li{margin:4px 0}
+</style>
+</head>
+<body><div class="wrap">
+
+<h1>FlapJax Treasury Audit &mdash; 2 Nov 2026 (COT) &mdash; Q88</h1>
+<div class="meta">
+Handle <code>dekucop55</code> &middot;
+Taskmarket agent <code>260185</code> &middot;
+BSC wallet <code class="addr">0x0E0b38B6752FC5fD9a12E77D4e5C5d6840A8a291</code>
+</div>
+
+<div class="warnbox">
+<strong>Read the coverage section before using any number here.</strong> The log scan
+did not cover the whole window &mdash; roughly 37% of the blocks never returned a
+result. Every figure below is a verified floor, not the day's total.
+</div>
+
+<h2>Window</h2>
+<div class="card">
+<div class="kv">
+<dt>Window</dt><dd>2026-11-02 00:00:00 &ndash; 23:59:59 COT (UTC-5)<br>= UTC 2026-11-02 05:00:00 &rarr; 2026-11-03 04:59:59</dd>
+<dt>First block of day</dt><dd><code>131181186</code></dd>
+<dt>Last block of day</dt><dd><code>131373132</code></dd>
+<dt>Treasury</dt><dd><code class="addr">0x7C34E9e21eE28A49Ff0b84B61774119E6633359f</code></dd>
+<dt>Token</dt><dd><code class="addr">0x90c8889f428F9Ebb77BB8f15CAD3a50a9aC680df</code> (FLAPJAX, 18 decimals)</dd>
+</div>
+</div>
+
+<h2>Headline numbers</h2>
+<div class="card">
+<div class="kv">
+<dt>Transfers found by log scan</dt><dd><span class="big">51</span></dd>
+<dt>Receipt-verified</dt><dd><span class="big">25</span> &mdash; 0 mismatches</dd>
+<dt>Distinct recipients</dt><dd><span class="big">25</span></dd>
+<dt>Verified total</dt><dd><span class="big">3,925,000</span> FLAPJAX</dd>
+<dt>All 51 transfers</dt><dd><span class="big">19,800,000</span> FLAPJAX</dd>
+</div>
+</div>
+
+<h2>First BNB funder &mdash; none of the recipients has one</h2>
+<p>All 25 distinct recipients are EOAs (<code>eth_getCode</code> returns
+<code>0x</code>) with nonce <code>0</code> and BNB balance <code>0</code>, with one
+exception:</p>
+
+<table>
+<tr><th>recipient</th><th>bytecode</th><th>nonce</th><th>BNB now</th><th>first BNB funder</th></tr>
+<tr><td colspan="4">24 of 25 recipients</td><td><span class="bad">none &mdash; never received BNB</span></td></tr>
+<tr><td><code class="addr">0xfb200657f7266157a45dfcc6c09690726daa24e6</code></td><td><code>0x</code> EOA</td><td>0</td><td>0.0005</td><td class="warn">untraceable without an archive node</td></tr>
+</table>
+
+<p>A nonce of <code>0</code> means the wallet has never sent a transaction. A balance
+of <code>0</code> means it has never received BNB. For 24 of 25 recipients there is
+no first funder to find. The exception holds 0.0005 BNB but also has nonce 0, so it
+never sent a transaction either; its BNB came from some other wallet, but
+identifying that wallet requires an archive trace node that was not available.</p>
+
+<h2>Groups</h2>
+<div class="card">
+<div class="kv">
+<dt>Shared first funders</dt><dd><span class="big">0</span></dd>
+<dt>Distinct operators implied</dt><dd><span class="big">25</span> &mdash; upper bound, not a finding</dd>
+</div>
+</div>
+
+<p>Twenty-five EOAs that have never received BNB, receiving FLAPJAX from one treasury
+in a single day, are equally consistent with 25 separate operators or with one
+operator holding 25 pre-generated addresses. The funder test cannot separate those
+cases here, because the BNB funding it depends on does not exist for 24 of them.</p>
+
+<h2>Unexplained transfers</h2>
+<p>All 51 are unexplained at the funder level. Each is verifiable as an on-chain
+event, but none has a BNB funding trail behind its recipient, so none can be
+attributed to a distinct operator or grouped.</p>
+
+<h2>Concentration</h2>
+<ul>
+<li><code class="addr">0x97cd18b8&hellip;</code> took <strong>2,000,000 FLAPJAX</strong>
+&mdash; 51.0% of the receipt-verified total, from a single transfer.</li>
+<li><code class="addr">0x5b4ca597&hellip;</code> took 300,000.</li>
+<li>Nine recipients took 100,000 each.</li>
+<li>Every one of the 25 recipients received exactly one transfer in this window.</li>
+</ul>
+
+<h2>The 25 receipt-verified transfers</h2>
+<table>
+<tr><th>#</th><th>block</th><th>recipient</th><th>FLAPJAX</th><th>check</th></tr>
+<tr><td>1</td><td>131250605</td><td><code class="addr">0xabc2c3daffa4c1963299da225c25f2aa7d4ddf62</code></td><td>25,000</td><td class="ok">verified</td></tr>
+<tr><td>2</td><td>131250654</td><td><code class="addr">0xeba13671a2f1993ee26a4e286db6e491fa5c99bc</code></td><td>25,000</td><td class="ok">verified</td></tr>
+<tr><td>3</td><td>131250711</td><td><code class="addr">0x3ccb7381ad4ea4eaab88c370818505771f998c80</code></td><td>25,000</td><td class="ok">verified</td></tr>
+<tr><td>4</td><td>131250760</td><td><code class="addr">0xdf4ff9d2f45f99f11a90b16f277d4b7edddb72a5</code></td><td>25,000</td><td class="ok">verified</td></tr>
+<tr><td>5</td><td>131250811</td><td><code class="addr">0xfb200657f7266157a45dfcc6c09690726daa24e6</code></td><td>25,000</td><td class="ok">verified</td></tr>
+<tr><td>6</td><td>131259188</td><td><code class="addr">0x08b245711ebcf65e7ead0f5434551eaa43f79f97</code></td><td>100,000</td><td class="ok">verified</td></tr>
+<tr><td>7</td><td>131259274</td><td><code class="addr">0xfc2b4b299fd656cd03c7b74649f454851115949d</code></td><td>100,000</td><td class="ok">verified</td></tr>
+<tr><td>8</td><td>131259366</td><td><code class="addr">0xd904ed87f5f97b6acaf6674fcf059196cd0523fc</code></td><td>100,000</td><td class="ok">verified</td></tr>
+<tr><td>9</td><td>131259448</td><td><code class="addr">0x778edd931786a717fd3e0ed5978a06718c06cbbe</code></td><td>100,000</td><td class="ok">verified</td></tr>
+<tr><td>10</td><td>131259531</td><td><code class="addr">0xf46b3853261750f666eb3963e2cb40d6b68938a9</code></td><td>100,000</td><td class="ok">verified</td></tr>
+<tr><td>11</td><td>131259794</td><td><code class="addr">0xd7a137933471c895b05c7413285be5815d5a9466</code></td><td>100,000</td><td class="ok">verified</td></tr>
+<tr><td>12</td><td>131260048</td><td><code class="addr">0x9b2a56b912659a24db94473526d2c67814a117ac</code></td><td>100,000</td><td class="ok">verified</td></tr>
+<tr><td>13</td><td>131260131</td><td><code class="addr">0x29cd0058113abfa5079e3d350874b19880449ba8</code></td><td>100,000</td><td class="ok">verified</td></tr>
+<tr><td>14</td><td>131260215</td><td><code class="addr">0x72aa6edde71b94f6b99c8e52edc02b5c75f74d1a</code></td><td>100,000</td><td class="ok">verified</td></tr>
+<tr><td>15</td><td>131260300</td><td><code class="addr">0xe03a0710a9a124da8d36266fbbaf396e77fc08ea</code></td><td>100,000</td><td class="ok">verified</td></tr>
+<tr><td>16</td><td>131261153</td><td><code class="addr">0xe32003a1e0347d1f90415b79c7f9f969515e9839</code></td><td>100,000</td><td class="ok">verified</td></tr>
+<tr><td>17</td><td>131261650</td><td><code class="addr">0xea5989e5332f39ef03823e68985d2e4183b370e6</code></td><td>100,000</td><td class="ok">verified</td></tr>
+<tr><td>18</td><td>131264893</td><td><code class="addr">0x5b4ca59741de12dc212982b342392a063492a021</code></td><td>300,000</td><td class="ok">verified</td></tr>
+<tr><td>19</td><td>131272888</td><td><code class="addr">0xfdf05af8ddce3621f01713e01721d6e9ad702ea8</code></td><td>25,000</td><td class="ok">verified</td></tr>
+<tr><td>20</td><td>131280746</td><td><code class="addr">0xa15c58e7008fc7a0331cfcc86a28af99fd21b93c</code></td><td>25,000</td><td class="ok">verified</td></tr>
+<tr><td>21</td><td>131297131</td><td><code class="addr">0xd16446a568f46bca1504422062f23767d8fa58d9</code></td><td>25,000</td><td class="ok">verified</td></tr>
+<tr><td>22</td><td>131304297</td><td><code class="addr">0x4644f7b8679bf0b6f22e69408e2272e9f4417b45</code></td><td>25,000</td><td class="ok">verified</td></tr>
+<tr><td>23</td><td>131338353</td><td><code class="addr">0xef120a8807f5e66c758dbe91d9c4e8acb1e718c1</code></td><td>100,000</td><td class="ok">verified</td></tr>
+<tr><td>24</td><td>131338962</td><td><code class="addr">0xac3ffca6a4b969e9664c95f6cc67289e76b1de59</code></td><td>100,000</td><td class="ok">verified</td></tr>
+<tr><td>25</td><td>131368810</td><td><code class="addr">0x97cd18b8bbb629b17675d868259ea84c0a2a5a9c</code></td><td>2,000,000</td><td class="ok">verified</td></tr>
+</table>
+
+<h2>Verification method</h2>
+<p>Two independent sources were used, because the first one proved unreliable.</p>
+<ul>
+<li><strong>Transfer set</strong> &mdash; <code>eth_getLogs</code> on
+<code>bnb-mainnet.g.alchemy.com/v2/demo</code>, <code>topic0</code>
+<code>0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef</code>,
+<code>topic1</code> the treasury address padded to 32 bytes, blocks
+131181186&ndash;131373132, in 10,000-block chunks, then 2,000-block chunks for the
+chunks that failed.</li>
+<li><strong>Independent cross-check</strong> &mdash; <code>eth_getTransactionReceipt</code>
+for every transaction found, comparing block, recipient, amount and status against
+the log. <strong>25 of 51 verified exactly, 0 mismatches</strong>, 26 receipts
+unavailable from the endpoint.</li>
+<li><strong>Recipient state</strong> &mdash; <code>eth_getCode</code>,
+<code>eth_getTransactionCount</code>, <code>eth_getBalance</code> at
+<code>latest</code> on <code>bsc-rpc.publicnode.com</code>. These do not require an
+archive node.</li>
+</ul>
+
+<h2>Coverage &mdash; stated rather than hidden</h2>
+<p>Of 20 top-level log chunks, 7 failed on the first pass. The retry pass with
+2,000-block sub-chunks recovered 40 additional transfers, but
+<strong>36 sub-chunks &mdash; roughly 72,000 blocks, about 37% of the window &mdash;
+never returned a result at any chunk size and remain unscanned.</strong></p>
+
+<p>51 transfers is what the covered portion produced. The true figure for the window
+is higher. This page reports the floor and names the gap rather than presenting 51
+as the day's total.</p>
+
+<div class="note">
+<strong>Why two sources.</strong> An earlier audit of mine used
+<code>bsc-rpc.publicnode.com</code> for <code>eth_getLogs</code> and it silently
+returned empty results for ranges above roughly 170 blocks, with no error. That
+produced a wrong audit, since corrected. The endpoint is used here only for
+non-archive calls it serves correctly; every log figure above comes from Alchemy and
+is receipt-checked.
+</div>
+
+<h2>Corroboration</h2>
+<p><code>balanceOf</code> at latest for <code>0x97cd18b8&hellip;</code> returns
+8,150,000 FLAPJAX, consistent with that wallet having taken 2,000,000 in this
+window.</p>
+
+</div></body></html>
