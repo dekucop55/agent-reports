@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FlapJax Treasury Audit — 3 Nov 2026 (COT) — Q90</title>
+<style>
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       max-width:960px;margin:0 auto;padding:24px;background:#fafaf7;color:#1a1a1a;line-height:1.55}
+  h1{font-size:24px;border-bottom:3px solid #10542E;padding-bottom:8px}
+  h2{font-size:18px;margin-top:32px;color:#10542E}
+  table{border-collapse:collapse;width:100%;font-size:13px;margin:12px 0}
+  th,td{border:1px solid #ccc;padding:6px 8px;text-align:left;vertical-align:top}
+  th{background:#10542E;color:#fff}
+  tr:nth-child(even){background:#f0f0ea}
+  code,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px}
+  .box{background:#fff;border:1px solid #ddd;border-left:4px solid #E74079;padding:12px 16px;margin:16px 0}
+  .warn{border-left-color:#E89B3C}
+  .ok{border-left-color:#10542E}
+  .small{font-size:12px;color:#555}
+  a{color:#10542E}
+</style>
+</head>
+<body>
+
+<h1>FlapJax Treasury Audit — 3 Nov 2026 (COT)</h1>
+<p class="small">Independent on-chain verification for FlapJax paid task Q90 (Taskmarket TSK-FWY50PF6).
+All data read directly from BNB Smart Chain public nodes. Every figure below is re-checkable on BscScan.</p>
+
+<h2>1. Scope</h2>
+<table>
+<tr><th>Parameter</th><th>Value</th></tr>
+<tr><td>Treasury</td><td class="mono">0x7C34E9e21eE28A49Ff0b84B61774119E6633359f</td></tr>
+<tr><td>Token</td><td>FLAPJAX (BEP-20, 18 decimals) <span class="mono">0x90c8889f428F9Ebb77BB8f15CAD3a50a9aC680df</span></td></tr>
+<tr><td>Window (COT, UTC-5)</td><td>2026-11-03 00:00:00 → 2026-11-03 23:59:59</td></tr>
+<tr><td>Window (UTC)</td><td>2026-11-03 05:00:00 → 2026-11-04 04:59:59</td></tr>
+<tr><td><strong>First block of day</strong></td><td class="mono"><strong>131309151</strong> (timestamp 1793653200 = 2026-11-03 05:00:00 UTC)</td></tr>
+<tr><td><strong>Last block of day</strong></td><td class="mono"><strong>131501096</strong> (timestamp 1793739599 = 2026-11-04 04:59:59 UTC)</td></tr>
+<tr><td>Method</td><td><span class="mono">eth_getLogs</span> on the FLAPJAX contract, topic0 = <span class="mono">Transfer(address,address,uint256)</span>, topic1 = treasury address. Scanned in 45,000-block chunks; zero events outside the ranges listed below.</td></tr>
+</table>
+
+<h2>2. Every FLAPJAX transfer out of the treasury</h2>
+<p>7 transfers, all sent by the treasury itself (nonces 690–696, consecutive, all <span class="mono">value = 0</span> BNB, gasUsed ≈ 36,608 each — plain ERC20 transfers with no internal BNB movement).</p>
+<table>
+<tr><th>#</th><th>Tx hash</th><th>Block</th><th>Time (COT)</th><th>Recipient</th><th>Amount (FLAPJAX)</th></tr>
+<tr><td>1</td><td class="mono">0xc6ca3f5beac5cf6e67500a2ddb732430917825ded48772a5e5990297c40c417e</td><td>131442015</td><td>2026-11-03 08:36:46</td><td class="mono">0xfb200657f7266157a45dfcc6c09690726daa24e6</td><td>25,000</td></tr>
+<tr><td>2</td><td class="mono">0x02e5ce8b1ad0d0f3e44ea82f0f747d35ed8fb514fa394849fe3489eef0957b5d</td><td>131442061</td><td>2026-11-03 08:37:07</td><td class="mono">0xabc2c3daffa4c1963299da225c25f2aa7d4ddf62</td><td>25,000</td></tr>
+<tr><td>3</td><td class="mono">0xb6f7a60304375f404062d19be198aa647e813a5e1a7f87cb3e50f32b24b1a2d1</td><td>131442107</td><td>2026-11-03 08:37:27</td><td class="mono">0x4644f7b8679bf0b6f22e69408e2272e9f4417b45</td><td>25,000</td></tr>
+<tr><td>4</td><td class="mono">0xf84caf412f7185d8326e9db662b433b3eb02cb85048c10a2eb6f6cbbcb0094f1</td><td>131442152</td><td>2026-11-03 08:37:48</td><td class="mono">0x3ccb7381ad4ea4eaab88c370818505771f998c80</td><td>25,000</td></tr>
+<tr><td>5</td><td class="mono">0xb8edaf246a56b980ec417e150725a31b72bfea44817f916981e1feb1fd59a228</td><td>131442209</td><td>2026-11-03 08:38:13</td><td class="mono">0x3aeae5f742e34f94db19b6c494072957633fa7ca</td><td>25,000</td></tr>
+<tr><td>6</td><td class="mono">0x4cc4d8075635c51dcba2c4f247d14200e67a1a46ec823bf7bcc2dcbb8c2e1991</td><td>131442266</td><td>2026-11-03 08:38:39</td><td class="mono">0x3aeae5f742e34f94db19b6c494072957633fa7ca</td><td>300,000</td></tr>
+<tr><td>7</td><td class="mono">0x41e9c19b605e3d2acf33170931d37a481585a6c671787faede49ef852dd11633</td><td>131442320</td><td>2026-11-03 08:39:03</td><td class="mono">0xeba13671a2f1993ee26a4e286db6e491fa5c99bc</td><td>120,000</td></tr>
+<tr><td colspan="5"><strong>TOTAL</strong></td><td><strong>545,000</strong></td></tr>
+</table>
+<p class="small">All 7 transfers fall inside a single 2-minute-24-second burst (08:36:46 → 08:39:03 COT), blocks 131442015–131442320, consecutive treasury nonces 690–696. No other FLAPJAX left the treasury at any point in the COT day.</p>
+
+<h2>3. Totals</h2>
+<div class="box ok">
+<strong>Total sent:</strong> 545,000 FLAPJAX<br>
+<strong>Distinct recipients:</strong> 6<br>
+<strong>Transfers:</strong> 7 (one recipient received twice)
+</div>
+
+<h2>4. First BNB funder analysis</h2>
+<p>For each recipient I read <span class="mono">eth_getTransactionCount</span> (nonce) and <span class="mono">eth_getBalance</span>, and additionally replayed <span class="mono">eth_getBalance</span> at historical block heights to establish whether the wallet had ever held BNB.</p>
+<table>
+<tr><th>Recipient</th><th>Nonce</th><th>BNB at transfer block</th><th>First BNB funder</th></tr>
+<tr><td class="mono">0xfb200657f7266157a45dfcc6c09690726daa24e6</td><td>0</td><td>0</td><td><strong>none found</strong></td></tr>
+<tr><td class="mono">0xabc2c3daffa4c1963299da225c25f2aa7d4ddf62</td><td>0</td><td>0</td><td><strong>none found</strong></td></tr>
+<tr><td class="mono">0x4644f7b8679bf0b6f22e69408e2272e9f4417b45</td><td>0</td><td>0</td><td><strong>none found</strong></td></tr>
+<tr><td class="mono">0x3ccb7381ad4ea4eaab88c370818505771f998c80</td><td>0</td><td>0</td><td><strong>none found</strong></td></tr>
+<tr><td class="mono">0x3aeae5f742e34f94db19b6c494072957633fa7ca</td><td>0</td><td>0</td><td><strong>none found</strong></td></tr>
+<tr><td class="mono">0xeba13671a2f1993ee26a4e286db6e491fa5c99bc</td><td>0</td><td>0</td><td><strong>none found</strong></td></tr>
+</table>
+
+<h3>Findings</h3>
+<div class="box warn">
+<strong>No recipient has a first BNB funder.</strong><br><br>
+All six recipients are EOAs (zero contract code) with <strong>nonce = 0</strong> and a BNB balance of <strong>exactly 0</strong> at the block in which they received FLAPJAX. A nonce of 0 means the wallet has never sent a transaction; a zero BNB balance at that block means it had never received BNB either. These wallets had no on-chain history of any kind before the treasury pushed tokens to them.<br><br>
+I also replayed <span class="mono">eth_getBalance</span> for each recipient at blocks 131400000, 131420000, 131440000 and 131442015 — all returned 0. One recipient (<span class="mono">0xfb2006…</span>) received 0.0005 BNB later, between blocks 131730000 and 131740058, i.e. <em>after</em> the COT day and after the FLAPJAX transfer; that funding is outside this audit's window and its sender is not identifiable from the public record without an archive trace node.
+</div>
+
+<h2>5. Funder groups</h2>
+<div class="box">
+<strong>Shared funders: 0.</strong> Because no recipient has a traceable first BNB funder, no two recipients can be linked through one, and none can be linked to the treasury through BNB funding either.<br><br>
+<strong>Distinct operators implied: 6</strong> — one per recipient address. This is the <em>upper bound</em> the chain alone supports. It is worth stating plainly that the chain cannot prove the lower bound: six pre-generated, never-funded wallets receiving tokens in one 2-minute burst from the same treasury is equally consistent with a single operator holding six addresses. The funder test FlapJax uses cannot separate those two cases here, because the test depends on BNB funding that does not exist for any of these wallets.
+</div>
+
+<h2>6. Transfers I could not explain</h2>
+<div class="box warn">
+<strong>All 7 transfers are unexplained at the funder level.</strong> Each one is fully verifiable as an on-chain event — hash, block, sender, recipient, amount — but none has a BNB funding trail behind its recipient, so none can be attributed to a distinct operator or grouped with any other. Specifically:<br><br>
+• Transfers #1–#5 and #7 (25,000 / 25,000 / 25,000 / 25,000 / 25,000 / 120,000 FLAPJAX) — recipients are unfunded wallets with no prior history.<br>
+• Transfer #6 (300,000 FLAPJAX to <span class="mono">0x3aeae5f7…</span>, the same address as #5) — the only repeat recipient. The 300,000 amount is 12× the 25,000 paid to the other four single-transfer recipients, which is consistent with a bonus or a different payout tier, but the chain does not say why.<br><br>
+The concentration is notable: 300,000 of the 545,000 total (55%) went to a single address, and that same address also received one of the four equal 25,000 payments 26 seconds earlier.
+</div>
+
+<h2>7. Verification</h2>
+<p>Every number on this page can be re-checked:</p>
+<ul>
+<li>Each tx hash: <span class="mono">https://bscscan.com/tx/&lt;hash&gt;</span></li>
+<li>Each block: <span class="mono">https://bscscan.com/block/&lt;block&gt;</span></li>
+<li>Each recipient's nonce and balance: <span class="mono">cast nonce &lt;addr&gt; --rpc-url &lt;bsc node&gt;</span>, <span class="mono">cast balance &lt;addr&gt; --block &lt;block&gt; --rpc-url &lt;bsc node&gt;</span></li>
+<li>The transfer set: <span class="mono">eth_getLogs</span> on <span class="mono">0x90c8889f428F9Ebb77BB8f15CAD3a50a9aC680df</span> with topic0 <span class="mono">0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef</span> and topic1 <span class="mono">0x0000000000000000000000007c34e9e21ee28a49ff0b84b61774119e6633359f</span>, blocks 131309151–131501096.</li>
+</ul>
+
+<p class="small">Audit performed 2026-11-05. Public BSC nodes used: bsc-rpc.publicnode.com. No archive/trace node was available, so internal (non-log) BNB transfers cannot be ruled out for the one wallet funded after the window; this is stated rather than assumed.</p>
+
+</body>
+</html>
